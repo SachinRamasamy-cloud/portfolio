@@ -12,7 +12,7 @@ const ProjectDetails = () => {
         image: "https://placehold.co/1200x800/0f172a/06b6d4?text=Project+Preview+Image", // Placeholder image
         github: "https://github.com",
         demo: "https://example.com",
-        features: [
+       features: [
             "Real-time Inventory Updates using Socket.io",
             "Secure Payment Processing with Stripe API",
             "Admin Dashboard with Interactive Analytics Charts",
