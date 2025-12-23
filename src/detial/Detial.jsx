@@ -1,32 +1,57 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowLeft, FaGithub, FaExternalLinkAlt, FaLayerGroup, FaTools, FaCheckCircle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getby } from '../server/serviceapi';
 
 const ProjectDetails = () => {
 
     const navigate = useNavigate();
-    // --- STATIC DEMO DATA ---
-    const project = {
-        title: "NeonCart E-Commerce",
-        description: "A high-performance, futuristic shopping platform built with the MERN stack. This application bridges the gap between traditional e-commerce and modern UX by implementing real-time inventory tracking, AI-driven product recommendations, and a seamless checkout process utilizing Stripe integration.",
-        image: "https://placehold.co/1200x800/0f172a/06b6d4?text=Project+Preview+Image", // Placeholder image
-        github: "https://github.com",
-        demo: "https://example.com",
-       features: [
-            "Real-time Inventory Updates using Socket.io",
-            "Secure Payment Processing with Stripe API",
-            "Admin Dashboard with Interactive Analytics Charts",
-            "Dark/Light Mode Theme Toggle with Persistence"
-        ],
-        stack: ["React", "Node.js", "MongoDB", "Express", "Tailwind CSS", "Redux"]
-    };
+    const { id } = useParams();
 
+    // 1. Initialize as null, not ""
+    const [project, setProject] = useState(null);
+    const [loading, setLoading] = useState(true); // Add loading state
+
+    const loaddata = async (id) => {
+        try {
+            setLoading(true);
+            const res = await getby(id);
+            setProject(res.data);
+        } catch (err) {
+            console.log("failed", err);
+        } finally {
+            setLoading(false); // Stop loading whether success or fail
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            loaddata(id);
+        }
+    }, [id]);
+
+    console.log(project)
+    // Body scroll lock
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         return () => {
             document.body.style.overflow = 'unset';
         };
     }, []);
+
+    // 2. SHOW LOADING SCREEN (Prevents the crash)
+    if (loading) {
+        return (
+            <div className="fixed inset-0 z-[100] w-full h-full bg-slate-950 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-cyan-500"></div>
+            </div>
+        );
+    }
+
+    // 3. Safety Check if project wasn't found
+    if (!project) {
+        return <div className="fixed inset-0 z-[100] bg-slate-950 text-white flex items-center justify-center">Project not found</div>;
+    }
 
     return (
         <div className="fixed inset-0 z-[100] w-full h-full bg-slate-950 overflow-y-auto animate-fade-in">
@@ -41,7 +66,9 @@ const ProjectDetails = () => {
                 </button>
 
                 <div className="flex gap-4">
-                    <a href={project.github} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors"><FaGithub size={20} /></a>
+                    {project.github && (
+                        <a href={project.github} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors"><FaGithub size={20} /></a>
+                    )}
                     {project.demo && (
                         <a href={project.demo} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors"><FaExternalLinkAlt size={18} /></a>
                     )}
@@ -86,11 +113,11 @@ const ProjectDetails = () => {
                     {/* Left Column: The "Story" */}
                     <div className="lg:col-span-2 space-y-12">
 
-                        {/* The Challenge */}
+                        {/* The Challenge - (Static text for now, or add this field to your DB schema later) */}
                         <div className="bg-slate-900/30 border border-slate-800/50 p-8 rounded-2xl">
-                            <h3 className="text-2xl font-bold text-white mb-4">The Challenge</h3>
+                            <h3 className="text-2xl font-bold text-white mb-4">Project Overview</h3>
                             <p className="text-slate-400 leading-relaxed">
-                                Most task management apps are either too complex or too simple. I wanted to build a solution that bridges the gap—offering powerful features like drag-and-drop and real-time updates, but with a minimalist, distraction-free UI. The main technical hurdle was managing state synchronization across different users in real-time.
+                                {project.description}
                             </p>
                         </div>
 
@@ -98,7 +125,8 @@ const ProjectDetails = () => {
                         <div>
                             <h3 className="text-2xl font-bold text-white mb-6">Key Features</h3>
                             <div className="grid md:grid-cols-2 gap-6">
-                                {project.features.map((feature, idx) => (
+                                {/* Safe Check: Ensure features exists and is an array */}
+                                {Array.isArray(project.features) && project.features.map((feature, idx) => (
                                     <div key={idx} className="flex items-start gap-4">
                                         <div className="mt-1 w-6 h-6 rounded-full bg-cyan-900/30 flex items-center justify-center text-cyan-400 flex-shrink-0">
                                             <FaCheckCircle size={14} />
@@ -111,26 +139,6 @@ const ProjectDetails = () => {
                                 ))}
                             </div>
                         </div>
-
-                        {/* Image Gallery (Placeholder Grid) */}
-                        <div>
-                            <h3 className="text-2xl font-bold text-white mb-6">Project Gallery</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="h-48 bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500/50 transition-colors flex flex-col items-center justify-center group/img cursor-pointer">
-                                    <div className="text-cyan-500 mb-2 opacity-50 group-hover/img:opacity-100 transition-opacity">
-                                        <FaLayerGroup size={24} />
-                                    </div>
-                                    <span className="text-slate-500 text-sm font-medium">Dashboard View</span>
-                                </div>
-                                <div className="h-48 bg-slate-800 rounded-xl overflow-hidden border border-slate-700 hover:border-cyan-500/50 transition-colors flex flex-col items-center justify-center group/img cursor-pointer">
-                                    <div className="text-purple-500 mb-2 opacity-50 group-hover/img:opacity-100 transition-opacity">
-                                        <FaTools size={24} />
-                                    </div>
-                                    <span className="text-slate-500 text-sm font-medium">Admin Panel</span>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                     {/* Right Column: The "Spec Sheet" */}
@@ -141,7 +149,8 @@ const ProjectDetails = () => {
                             <h3 className="text-lg font-bold text-white mb-6">Technologies</h3>
 
                             <div className="flex flex-wrap gap-2 mb-8">
-                                {project.stack.map((tech, idx) => (
+                                {/* Safe Check: Ensure stack exists and is an array */}
+                                {Array.isArray(project.stack) && project.stack.map((tech, idx) => (
                                     <span key={idx} className="px-3 py-1.5 text-sm text-cyan-200 bg-cyan-950/50 border border-cyan-800 rounded-lg">
                                         {tech}
                                     </span>
@@ -149,14 +158,16 @@ const ProjectDetails = () => {
                             </div>
 
                             <div className="space-y-4 border-t border-slate-800 pt-6">
-                                <a
-                                    href={project.github}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="flex items-center justify-center gap-2 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-lg transition-all"
-                                >
-                                    <FaGithub /> View Code
-                                </a>
+                                {project.github && (
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="flex items-center justify-center gap-2 w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-lg transition-all"
+                                    >
+                                        <FaGithub /> View Code
+                                    </a>
+                                )}
                                 {project.demo && (
                                     <a
                                         href={project.demo}

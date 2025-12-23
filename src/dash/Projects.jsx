@@ -1,54 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowRight, FaGithub, FaExternalLinkAlt, FaReact, FaNodeJs, FaDatabase } from 'react-icons/fa';
 import { SiTailwindcss, SiMongodb, SiExpress } from 'react-icons/si'; // Optional: for more specific logos
+import { getAll } from '../server/serviceapi';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Projects = () => {
 
-    const projects = [
-        {
-            title: "E-Commerce Platform",
-            description: "A full-stack shopping platform with user authentication, product search, and a functional shopping cart.",
-            features: [
-                "User Authentication (JWT)",
-                "Admin Dashboard for Products",
-                "PayPal/Stripe Integration",
-                "Responsive Mobile Design"
-            ],
-            stack: ["React", "Node.js", "Express", "MongoDB", "Tailwind"],
-            github: "https://github.com/yourusername/project1",
-            demo: "https://project1-demo.com",
-            image: "https://placehold.co/600x400/1e293b/cyan?text=E-Commerce+App"
-        },
-        {
-            title: "Task Management App",
-            description: "A Drag-and-Drop Kanban board to manage tasks, increase productivity, and track project progress.",
-            features: [
-                "Drag & Drop Interface",
-                "Real-time Updates",
-                "Dark/Light Mode Toggle",
-                "Category Filtering"
-            ],
-            stack: ["React", "Firebase", "Tailwind", "Context API"],
-            github: "https://github.com/yourusername/project2",
-            demo: "https://project2-demo.com",
-            image: "https://placehold.co/600x400/1e293b/cyan?text=Task+Manager"
-        },
-        {
-            title: "Weather Dashboard",
-            description: "Real-time weather application consuming open APIs to display forecasts, humidity, and wind speeds.",
-            features: [
-                "Live API Integration",
-                "City Search & History",
-                "5-Day Forecast Visuals",
-                "Geolocation Support"
-            ],
-            stack: ["React", "OpenWeatherMap API", "CSS Modules"],
-            github: "https://github.com/yourusername/project3",
-            // demo: null, // Example of how to handle missing demo link
-            image: "https://placehold.co/600x400/1e293b/cyan?text=Weather+App"
-        }
-    ];
+    const [projects, setproject] = useState([])
 
+    const loaddata = async () => {
+        try {
+            const res = await getAll()
+            setproject(res.data)
+        }
+        catch (err) {
+            console.log("Failed to load to data", err)
+        }
+    }
+
+    const navigate = useNavigate()
+    const handlego = (id) => {
+        navigate(`/detial/${id}`)
+    }
+
+    const handleall = () => {
+        navigate("/all-projects")
+    }
+
+    useEffect(() => {
+        loaddata()
+    }, [])
     return (
         <section id="projects" className="relative w-full py-20 bg-slate-950 overflow-hidden text-slate-300">
 
@@ -71,18 +52,19 @@ const Projects = () => {
                     </p>
 
                     {/* --- View All Button --- */}
-                    <a
-                        href="/all-projects" // Update this link to your actual projects page or GitHub
+                    <button
+                        onClick={handleall}
                         className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-slate-700 bg-slate-800/50 text-slate-300 hover:text-white hover:border-cyan-500 hover:bg-cyan-500/10 transition-all duration-300 group"
                     >
                         <span className="text-sm font-semibold">View All Projects</span>
                         <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300 text-cyan-400" />
-                    </a>
+                    </button>
                 </div>
                 {/* Projects Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {projects.map((project, index) => (
+                    {projects.slice(0, 3).map((project, index) => (
                         <div
+                            onClick={() => handlego(project._id)}
                             key={index}
                             className="group flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 transform hover:-translate-y-2"
                         >
