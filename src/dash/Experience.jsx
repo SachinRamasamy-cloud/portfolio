@@ -10,7 +10,7 @@ const Experience = () => {
       type: "internship",
       role: "MERN Stack Developer Intern (Trainee)",
       company: "Luminar Technolab",
-      period: "Jan 2024 – Jun 2024",
+      period: "Jun 2025 – Jan 2026",
       location: "Kochi, India",
       description:
         "Completed a 6-month intensive MERN Stack internship focused on building full-stack web applications with industry-oriented practices.",
@@ -28,7 +28,7 @@ const Experience = () => {
       type: "project",
       role: "Full Stack Developer",
       company: "Esports Tournament Platform",
-      period: "Mar 2024 – Apr 2024",
+      period: "Oct 2025 – Nov 2025",
       location: "Remote",
       description:
         "Developed a MERN-based esports platform with user authentication, tournament listings, and admin management features.",
@@ -45,7 +45,7 @@ const Experience = () => {
       type: "project",
       role: "Frontend-Focused Full Stack Developer",
       company: "Anime Information Platform",
-      period: "Feb 2024 – Mar 2024",
+      period: "Nov 2025 – Dec 2025",
       location: "Remote",
       description:
         "Built an anime discovery platform using the Jikan API with advanced filtering and search functionality.",
