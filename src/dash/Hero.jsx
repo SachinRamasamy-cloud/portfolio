@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const HeroSection = () => {
-  // 1. Replace this with your actual photo path (e.g., /assets/sachin.jpg)
   const myImageSource = "https://placehold.co/600x700/0f172a/ffffff?text=Sachin+Ramsamy";
-  
-  // 2. Replace this with your actual Resume PDF path
   const resumeLink = "/resume.pdf";
+
+  const roles = [
+    "Front-End Developer",
+    "UI/UX Designer", 
+    "MERN Stack Developer",
+    "Creative Thinker"
+  ];
+
+  const [currentRole, setCurrentRole] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); 
+      setTimeout(() => {
+        setCurrentRole((prev) => (prev + 1) % roles.length);
+        setFade(true);
+      }, 500);
+
+    }, 3000); 
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   return (
     <section className="relative w-full min-h-screen bg-slate-950 overflow-hidden flex items-center justify-center selection:bg-cyan-500/30 selection:text-cyan-200">
       
       {/* --- Optimized Background Animation --- */}
-      {/* We use opacity and standard classes to avoid heavy GPU usage */}
       <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
-        {/* Top Left Blob - Cyan/Blue */}
         <div className="absolute -top-[10%] -left-[10%] w-[40vw] h-[40vw] rounded-full bg-cyan-600/20 blur-[100px] animate-pulse"></div>
-        {/* Bottom Right Blob - Violet */}
         <div className="absolute -bottom-[10%] -right-[10%] w-[40vw] h-[40vw] rounded-full bg-violet-600/20 blur-[100px] animate-pulse" style={{ animationDelay: '2s' }}></div>
-        {/* Center - Blue Accent */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50vw] h-[50vw] rounded-full bg-blue-600/10 blur-[120px]"></div>
       </div>
 
-      {/* Noise Overlay (Adds texture to the dark background) */}
+      {/* Noise Overlay */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none"></div>
 
       {/* --- Content Container --- */}
@@ -34,7 +51,7 @@ const HeroSection = () => {
             {/* Status Badge */}
             <div className="inline-flex items-center justify-center lg:justify-start animate-fade-in-up">
               <span className="px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700 text-cyan-400 text-xs font-semibold tracking-wide shadow-xl backdrop-blur-md">
-                ✨ Fresher & Ready to Build
+                 Fresher & Ready to Build
               </span>
             </div>
 
@@ -50,9 +67,18 @@ const HeroSection = () => {
                 </h1>
             </div>
 
-            {/* Introduction */}
+            {/* Introduction with Dynamic Text */}
             <p className="text-lg text-slate-400 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              A passionate <span className="text-white font-semibold">Front-End Developer</span> specializing in building responsive web applications with React and Tailwind CSS. eager to turn complex problems into beautiful interfaces.
+              A passionate{' '}
+              {/* Dynamic Fading Span */}
+              <span 
+                className={`text-white font-bold inline-block transition-all duration-500 ease-in-out transform ${
+                  fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+                }`}
+              >
+                {roles[currentRole]}
+              </span>
+              {' '}specializing in building responsive web applications with React and Tailwind CSS. Eager to turn complex problems into beautiful interfaces.
             </p>
 
             {/* Call to Actions */}
@@ -82,20 +108,19 @@ const HeroSection = () => {
               {/* Back Glow */}
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
               
-              {/* Image Container with Tilt Effect */}
-              {/* Note: loading="eager" improves performance */}
+              {/* Image Container */}
               <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-slate-800/50 shadow-2xl transform md:rotate-2 md:group-hover:rotate-0 transition-all duration-500 ease-out">
                  <div className="absolute inset-0 bg-slate-950/10 mix-blend-multiply z-10 pointer-events-none"></div>
                  
                  <img 
                    src={myImageSource} 
-                   alt="Sachin Ramsamy - Front End Developer" 
+                   alt="Sachin Ramsamy" 
                    loading="eager"
                    fetchPriority="high"
                    className="w-full h-auto object-cover object-top hover:scale-105 transition-transform duration-700"
                  />
                  
-                 {/* "Open to Work" Badge floating on image */}
+                 {/* Badge */}
                  <div className="absolute bottom-4 right-4 z-20 bg-slate-900/90 backdrop-blur border border-slate-700 px-3 py-2 rounded-lg shadow-lg flex items-center gap-2">
                     <span className="relative flex h-2.5 w-2.5">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>

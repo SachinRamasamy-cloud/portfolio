@@ -5,9 +5,9 @@ const Contact = () => {
 
   // Replace with your actual links
   const contactInfo = {
-    email: "sachin.ramsamy@example.com",
-    linkedin: "https://linkedin.com/in/yourprofile",
-    github: "https://github.com/yourusername",
+    email: "sacs7808@gmail.com",
+    linkedin: "https://www.linkedin.com/in/sachin-ramasamy-5146092b5/",
+    github: "https://github.com/SachinRamasamy-cloud",
   };
 
   return (
@@ -106,7 +106,7 @@ const Contact = () => {
                  <input 
                    type="text" 
                    id="name"
-                   placeholder="John Doe" 
+                   placeholder="Sachin" 
                    className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
                  />
                </div>
@@ -117,7 +117,7 @@ const Contact = () => {
                  <input 
                    type="email" 
                    id="email"
-                   placeholder="john@example.com" 
+                   placeholder="sachin@example.com" 
                    className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-lg text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all"
                  />
                </div>
@@ -150,7 +150,7 @@ const Contact = () => {
         {/* Footer */}
         <div className="mt-20 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
           <p>© {new Date().getFullYear()} Sachin Ramsamy. All rights reserved.</p>
-          <p className="mt-2">Built with React & Tailwind CSS.</p>
+          <p className="mt-2">Built with MERN & Tailwind CSS.</p>
         </div>
 
       </div>

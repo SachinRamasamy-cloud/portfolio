@@ -98,7 +98,7 @@ const Footer = () => {
             <span>© {new Date().getFullYear()} Sachin Ramsamy.</span>
             <span className="hidden md:block w-1 h-1 bg-slate-700 rounded-full"></span>
             <span className="flex items-center gap-1">
-              Made with <FaHeart className="text-red-500 animate-pulse mx-1" /> & React
+              Made with <FaHeart className="text-red-500 animate-pulse mx-1" /> & MERN
             </span>
           </div>
 
