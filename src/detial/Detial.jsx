@@ -92,7 +92,7 @@ const ProjectDetails = () => {
                 <div className="relative w-full h-[40vh] md:h-[60vh] rounded-2xl overflow-hidden mb-16 border border-slate-800 shadow-2xl shadow-cyan-900/20 group">
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60 z-10"></div>
                     <img
-                        src={`http://localhost:5000/${project.image}`}
+                        src={`https://protfoliodb.onrender.com/${project.image}`}
                         alt={project.title}
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000"
                     />

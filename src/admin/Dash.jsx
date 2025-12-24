@@ -128,7 +128,7 @@
 
 //   return (
 //     <div className="min-h-screen bg-slate-950 text-slate-300 font-sans relative overflow-hidden">
-      
+
 //       {/* Background Ambience */}
 //       <div className="absolute top-0 left-0 w-full h-96 bg-cyan-900/10 blur-[120px] pointer-events-none"></div>
 
@@ -145,7 +145,7 @@
 //       </header>
 
 //       <main className="container mx-auto px-6 py-8 relative z-10">
-        
+
 //         {/* --- STATS & ACTION --- */}
 //         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
 //           <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
@@ -234,7 +234,7 @@
 //                 <label className="block text-xs font-medium text-slate-400 uppercase mb-1">Project Title</label>
 //                 <input type="text" name="title" value={formData.title} onChange={handleChange} required className="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-500" />
 //               </div>
-              
+
 //               <div>
 //                 <label className="block text-xs font-medium text-slate-400 uppercase mb-1">Description</label>
 //                 <textarea name="description" value={formData.description} onChange={handleChange} rows="3" required className="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 resize-none" />
@@ -290,10 +290,10 @@ const AdminDashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [projects, setProjects] = useState([]);
-  
+
   // New State for File Upload
-  const [file, setFile] = useState(null); 
-  const [preview, setPreview] = useState(""); 
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState("");
 
   // --- API HELPER FUNCTIONS ---
 
@@ -318,8 +318,8 @@ const AdminDashboard = () => {
     image: '', // Stores URL for preview/fallback
     github: '',
     demo: '',
-    features: '', 
-    stack: ''   
+    features: '',
+    stack: ''
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -351,7 +351,7 @@ const AdminDashboard = () => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
     if (selectedFile) {
-        setPreview(URL.createObjectURL(selectedFile)); // Show local preview
+      setPreview(URL.createObjectURL(selectedFile)); // Show local preview
     }
   };
 
@@ -389,9 +389,9 @@ const AdminDashboard = () => {
 
     // 3. Handle Image
     if (file) {
-        data.append('image', file); // Send new file
+      data.append('image', file); // Send new file
     } else {
-        data.append('image', formData.image); // Send old URL if no new file
+      data.append('image', formData.image); // Send old URL if no new file
     }
 
     try {
@@ -416,7 +416,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-300 font-sans relative overflow-hidden">
-      
+
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-96 bg-cyan-900/10 blur-[120px] pointer-events-none"></div>
 
@@ -433,7 +433,7 @@ const AdminDashboard = () => {
       </header>
 
       <main className="container mx-auto px-6 py-8 relative z-10">
-        
+
         {/* --- STATS & ACTION --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
@@ -476,7 +476,9 @@ const AdminDashboard = () => {
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-lg bg-slate-800 overflow-hidden border border-slate-700 flex-shrink-0">
                           {/* Image Fallback */}
-                          <img src={project.image || "https://placehold.co/100"} alt={project.title} className="w-full h-full object-cover" />
+                          <img
+                            src={`https://protfoliodb.onrender.com/${project.image}`}
+                            alt={project.title} className="w-full h-full object-cover" />
                         </div>
                         <div>
                           <p className="font-bold text-white text-sm">{project.title}</p>
@@ -484,11 +486,11 @@ const AdminDashboard = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                       <div className="flex flex-wrap gap-1 max-w-[200px]">
+                      <div className="flex flex-wrap gap-1 max-w-[200px]">
                         {Array.isArray(project.stack) && project.stack.slice(0, 3).map((t, i) => (
-                            <span key={i} className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 border border-slate-700">{t}</span>
+                          <span key={i} className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 border border-slate-700">{t}</span>
                         ))}
-                       </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex justify-end gap-2">
@@ -518,36 +520,36 @@ const AdminDashboard = () => {
             </div>
 
             <form onSubmit={handleSave} className="p-6 space-y-6">
-              
+
               {/* IMAGE UPLOAD SECTION */}
               <div>
                 <label className="block text-xs font-medium text-slate-400 uppercase mb-2">Project Image</label>
                 <div className="flex items-center gap-4">
-                    <div className="w-20 h-20 bg-slate-800 rounded-lg border border-slate-700 overflow-hidden flex-shrink-0">
-                        {preview ? (
-                            <img src={preview} alt="Preview" className="w-full h-full object-cover" />
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-600">
-                                <FaImage size={24} />
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex-1">
-                        <input 
-                            type="file" 
-                            name="image" 
-                            onChange={handleFileChange} 
-                            accept="image/*"
-                            className="block w-full text-sm text-slate-400
+                  <div className="w-20 h-20 bg-slate-800 rounded-lg border border-slate-700 overflow-hidden flex-shrink-0">
+                    {preview ? (
+                      <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-600">
+                        <FaImage size={24} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={handleFileChange}
+                      accept="image/*"
+                      className="block w-full text-sm text-slate-400
                                 file:mr-4 file:py-2 file:px-4
                                 file:rounded-lg file:border-0
                                 file:text-sm file:font-semibold
                                 file:bg-cyan-600 file:text-white
                                 hover:file:bg-cyan-500
                                 cursor-pointer"
-                        />
-                        <p className="text-xs text-slate-500 mt-2">Recommended: 800x600px, JPG/PNG</p>
-                    </div>
+                    />
+                    <p className="text-xs text-slate-500 mt-2">Recommended: 800x600px, JPG/PNG</p>
+                  </div>
                 </div>
               </div>
 
@@ -555,7 +557,7 @@ const AdminDashboard = () => {
                 <label className="block text-xs font-medium text-slate-400 uppercase mb-1">Project Title</label>
                 <input type="text" name="title" value={formData.title} onChange={handleChange} required className="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-500" />
               </div>
-              
+
               <div>
                 <label className="block text-xs font-medium text-slate-400 uppercase mb-1">Description</label>
                 <textarea name="description" value={formData.description} onChange={handleChange} rows="3" required className="w-full px-4 py-2 bg-slate-950 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-500 resize-none" />

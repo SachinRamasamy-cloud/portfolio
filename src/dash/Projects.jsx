@@ -73,7 +73,7 @@ const Projects = () => {
                             <div className="relative w-full h-48 overflow-hidden">
                                 <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-all duration-500 z-10"></div>
                                 <img
-                                    src={project.image}
+                                    src={`https://protfoliodb.onrender.com/${project.image}`}
                                     alt={project.title}
                                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                 />
